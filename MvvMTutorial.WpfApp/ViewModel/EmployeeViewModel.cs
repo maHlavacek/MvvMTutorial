@@ -39,23 +39,24 @@ namespace MvvMTutorial.WpfApp.ViewModel
                 selectedEmployee = new Logic.Entities.Employee();
             }
         }
+        private string firstName;
 
         public string FirstName
         {
-            get { return SelectedEmployee.FirstName; }
+            get { return firstName; }
             set
             {
-                SelectedEmployee.FirstName = value;
+                firstName = value;
                 OnPropertyChanged(nameof(FirstName));
             }
         }
-
+        private string lastName;
         public string LastName
         {
-            get { return SelectedEmployee.LastName; }
+            get { return lastName; }
             set
             {
-                SelectedEmployee.LastName = value;
+                lastName = value;
                 OnPropertyChanged(nameof(LastName));
             }
         }
@@ -88,9 +89,25 @@ namespace MvvMTutorial.WpfApp.ViewModel
             {
                 if(cmdSaveChanges == null)
                 {
-                    cmdSaveChanges = new RelayCommand();
+                    cmdSaveChanges = new Command.RelayCommand(o =>
+                    {
+                        if(string.IsNullOrEmpty(SelectedEmployee.LastName))
+                        {
+                            Logic.EmployeeRepository.Add(LastName, FirstName);
+                        }
+                        else
+                        {
+                            SelectedEmployee.FirstName = FirstName;
+                            SelectedEmployee.LastName = LastName;
+                        }
+                        LoadEmployees();
+                    },
+                    o => SelectedEmployee != null
+                    );
                 }
+                return cmdSaveChanges;
             }
+            set => cmdSaveChanges = value;
         }
 
     }
