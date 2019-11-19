@@ -25,6 +25,8 @@ namespace MvvMTutorial.WpfApp.ViewModel
                 employees = new ObservableCollection<Logic.Entities.Employee>();
             }
 
+            employees.Clear();
+
             foreach (var item in Logic.EmployeeRepository.GetEmployees())
             {
                 employees.Add(item);
@@ -33,6 +35,8 @@ namespace MvvMTutorial.WpfApp.ViewModel
             if (employees.Any())
             {
                 selectedEmployee = employees[0];
+                FirstName = selectedEmployee.FirstName;
+                LastName = selectedEmployee.LastName;
             }
             else
             {

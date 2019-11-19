@@ -29,7 +29,7 @@ namespace MvvMTutorial.WpfApp.Command
 
         public void Execute(object parameter)
         {
-            if (execute != null) execute(parameter);
+            if (execute != null) this.execute(parameter);
         }
     }
 }
